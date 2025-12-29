@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Resources\PuppyResource;
 use App\Models\Puppy;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -8,7 +9,7 @@ use Laravel\Fortify\Features;
 Route::get('/', function () {
     return Inertia::render('welcome', [
         // 'canRegister' => Features::enabled(Features::registration()),
-        'puppies' => Puppy::all()
+        'puppies' => PuppyResource::collection(Puppy::all()->load(['user'])),
     ]);
 })->name('home');
 

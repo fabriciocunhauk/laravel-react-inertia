@@ -24,6 +24,9 @@ function PuppyCard({ puppy }: { puppy: PuppiesListTypes }) {
                 <div className="flex items-center gap-2">
                     <p className="font-semibold">{puppy.name}</p>
                     <p className="text-slate-500">{puppy.trait}</p>
+                    <p className="text-slate-500">
+                        Owned By: {puppy.user.name}
+                    </p>
                 </div>
                 {/* <LikeButton
           puppyId={puppy.id}
