@@ -1,6 +1,6 @@
-import type { PuppiesListTypes } from '@/types/puppyTypes';
+import { Puppy } from '@/types/puppyTypes';
 
-function PuppiesList({ puppiesList }: { puppiesList: PuppiesListTypes[] }) {
+function PuppiesList({ puppiesList }: { puppiesList: Puppy[] }) {
     return (
         <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {puppiesList.map((puppy) => (
@@ -12,7 +12,7 @@ function PuppiesList({ puppiesList }: { puppiesList: PuppiesListTypes[] }) {
 
 export default PuppiesList;
 
-function PuppyCard({ puppy }: { puppy: PuppiesListTypes }) {
+function PuppyCard({ puppy }: { puppy: Puppy }) {
     return (
         <li className="overflow-clip rounded-lg bg-white shadow-md ring ring-black/5 hover:-translate-y-0.5">
             <img

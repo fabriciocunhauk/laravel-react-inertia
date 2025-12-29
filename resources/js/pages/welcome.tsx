@@ -4,11 +4,12 @@ import { NewPuppyForm } from '@/components/NewPuppyForm';
 import { PageWrapper } from '@/components/PageWrapper';
 import PuppiesList from '@/components/PuppiesList';
 import { Search } from '@/components/Search';
-import type { PuppiesListTypes } from '@/types/puppyTypes';
+import { Puppy } from '@/types/puppyTypes';
 import { useMemo, useState } from 'react';
 
-const App = ({ puppies }: { puppies: PuppiesListTypes[] }) => (
+const App = ({ puppies }: { puppies: Puppy[] }) => (
     <PageWrapper>
+        {/* <pre>{JSON.stringify(puppies, null, 2)}</pre> */}
         <Container>
             <Header />
             <Main puppies={puppies} />
@@ -18,8 +19,8 @@ const App = ({ puppies }: { puppies: PuppiesListTypes[] }) => (
 
 export default App;
 
-const Main = ({ puppies }: { puppies: PuppiesListTypes[] }) => {
-    const [puppy, setPoppy] = useState<PuppiesListTypes[]>(puppies);
+const Main = ({ puppies }: { puppies: Puppy[] }) => {
+    const [puppy, setPoppy] = useState<Puppy[]>(puppies);
     // const [isLiked, setIsLiked] = useState<number[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
 
