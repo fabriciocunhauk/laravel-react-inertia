@@ -5,7 +5,6 @@ import { PageWrapper } from '@/components/PageWrapper';
 import { PuppiesList } from '@/components/PuppiesList';
 import { Search } from '@/components/Search';
 import { Shortlist } from '@/components/Shortlist';
-
 import { Puppy, SharedData } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
