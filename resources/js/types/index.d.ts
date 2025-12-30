@@ -41,3 +41,12 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface Puppy {
+    id: number;
+    name: string;
+    trait: string;
+    image_url: string;
+    user: Pick<User, 'id' | 'name'>;
+    likedBy: User['id'][];
+}

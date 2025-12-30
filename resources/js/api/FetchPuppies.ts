@@ -1,22 +1,38 @@
-export async function fetchPuppies() {
-  const API_URL = "https://api.thedogapi.com/v1/breeds?limit=20";
-  const apiKey = import.meta.env.VITE_API_KEY;
+import { Puppy } from "@/types";
 
-  try {
-    const response = await fetch(API_URL, {
-      method: "GET",
-      headers: {
-        "x-api-key": apiKey,
-      },
+// ------------------------------
+// Add/remove from shortlist
+// ------------------------------
+export async function toggleLikedStatus(id: Puppy['id']) {
+    const response = await fetch(`http://react-backend.test/api/puppies/${id}/like`, {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+        },
     });
-
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        throw errorData;
     }
+    const { data } = await response.json();
+    return data;
+}
 
-    return await response.json();
-  } catch (error) {
-    console.error("Failed to fetch puppies:", error);
-    throw new Error("Can't fetch puppies");
-  }
+// ------------------------------
+// Add a new puppy
+// ------------------------------
+export async function createPuppy(formData: FormData) {
+    const response = await fetch('http://react-backend.test/api/puppies', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            Accept: 'application/json',
+        },
+    });
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw errorData;
+    }
+    const data = await response.json();
+    return data;
 }

@@ -2,40 +2,29 @@ import { Container } from '@/components/Container';
 import { Header } from '@/components/Header';
 import { NewPuppyForm } from '@/components/NewPuppyForm';
 import { PageWrapper } from '@/components/PageWrapper';
-import PuppiesList from '@/components/PuppiesList';
+import { PuppiesList } from '@/components/PuppiesList';
 import { Search } from '@/components/Search';
 import { Shortlist } from '@/components/Shortlist';
-import { Puppy } from '@/types/puppyTypes';
-import { useMemo, useState } from 'react';
 
-const App = ({ puppies }: { puppies: Puppy[] }) => (
-    <PageWrapper>
-        {/* <pre>{JSON.stringify(puppies, null, 2)}</pre> */}
-        <Container>
-            <Header />
-            <Main puppies={puppies} />
-        </Container>
-    </PageWrapper>
-);
+import { Puppy, SharedData } from '@/types';
+import { usePage } from '@inertiajs/react';
+import { useState } from 'react';
 
-export default App;
-
-const Main = ({ puppies }: { puppies: Puppy[] }) => {
-    const [puppy, setPoppy] = useState<Puppy[]>(puppies);
-    // const [isLiked, setIsLiked] = useState<number[]>([]);
-    const [searchQuery, setSearchQuery] = useState<string>('');
-
-    const filteredPuppies = useMemo(
-        () =>
-            puppy.filter((puppy) =>
-                searchQuery
-                    ? puppy.name
-                          ?.toLowerCase()
-                          .includes(searchQuery.toLowerCase())
-                    : true,
-            ),
-        [puppy, searchQuery],
+export default function App({ puppies }: { puppies: Puppy[] }) {
+    return (
+        <PageWrapper>
+            <Container>
+                <Header />
+                <Main pups={puppies} />
+            </Container>
+        </PageWrapper>
     );
+}
+
+function Main({ pups }: { pups: Puppy[] }) {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [puppies, setPuppies] = useState<Puppy[]>(pups);
+    const { auth } = usePage<SharedData>().props;
 
     return (
         <main>
@@ -44,15 +33,16 @@ const Main = ({ puppies }: { puppies: Puppy[] }) => {
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                 />
-                <Shortlist
-                    puppiesList={puppy}
-                    puppyIds={puppy.map((puppy) => puppy.id)}
-                />
+                {auth.user && (
+                    <Shortlist puppies={puppies} setPuppies={setPuppies} />
+                )}
             </div>
-
-            <PuppiesList puppiesList={filteredPuppies} />
-
-            <NewPuppyForm puppiesList={puppy} setPuppiesList={setPoppy} />
+            <PuppiesList
+                puppies={puppies}
+                setPuppies={setPuppies}
+                searchQuery={searchQuery}
+            />
+            <NewPuppyForm puppies={puppies} setPuppies={setPuppies} />
         </main>
     );
-};
+}

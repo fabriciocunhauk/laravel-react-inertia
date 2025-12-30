@@ -1,21 +1,43 @@
-import { Puppy } from '@/types/puppyTypes';
-import { Heart } from 'lucide-react';
+import { toggleLikedStatus } from '@/api/FetchPuppies';
+import { Puppy } from '@/types';
+import { Heart, LoaderCircle } from 'lucide-react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-function LikeButton({ puppy }: { puppy: Puppy }) {
+export function LikeButton({
+    puppy,
+    setPuppies,
+}: {
+    puppy: Puppy;
+    setPuppies: Dispatch<SetStateAction<Puppy[]>>;
+}) {
+    const [pending, setPending] = useState(false);
     return (
-        <div className="flex items-center gap-1">
-            <button className="group">
+        <button
+            className="group"
+            onClick={async () => {
+                setPending(true);
+                const updatedPuppy = await toggleLikedStatus(puppy.id);
+                setPuppies((prevPups) => {
+                    return prevPups.map((existingPuppy) =>
+                        existingPuppy.id === updatedPuppy.id
+                            ? updatedPuppy
+                            : existingPuppy,
+                    );
+                });
+                setPending(false);
+            }}
+        >
+            {pending ? (
+                <LoaderCircle className="animate-spin stroke-slate-300" />
+            ) : (
                 <Heart
                     className={
-                        puppy.likedBy.length > 0
-                            ? 'fill-pink-500 stroke-pink-500'
-                            : 'stroke-slate-400 group-hover:stroke-slate-600'
+                        puppy.likedBy.includes(1)
+                            ? 'fill-pink-500 stroke-none'
+                            : 'stroke-slate-200 group-hover:stroke-slate-300'
                     }
-                    size={20}
                 />
-            </button>
-        </div>
+            )}
+        </button>
     );
 }
-
-export default LikeButton;
