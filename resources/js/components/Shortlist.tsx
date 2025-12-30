@@ -1,15 +1,11 @@
-import { toggleLikedStatus } from '@/api/FetchPuppies';
+import { usePage } from '@inertiajs/react';
 import { Heart, LoaderCircle, X } from 'lucide-react';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { Puppy } from '../types';
+import { useState } from 'react';
+import { Puppy, SharedData } from '../types';
 
-export function Shortlist({
-    puppies,
-    setPuppies,
-}: {
-    puppies: Puppy[];
-    setPuppies: Dispatch<SetStateAction<Puppy[]>>;
-}) {
+export function Shortlist({ puppies }: { puppies: Puppy[] }) {
+    const { auth } = usePage<SharedData>().props;
+
     return (
         <div>
             <h2 className="flex items-center gap-2 font-medium">
@@ -18,7 +14,7 @@ export function Shortlist({
             </h2>
             <ul className="mt-4 flex flex-wrap gap-4">
                 {puppies
-                    .filter((pup) => pup.likedBy.includes(1))
+                    .filter((pup) => pup.likedBy.includes(auth.user?.id))
                     .map((puppy) => (
                         <li
                             key={puppy.id}
@@ -34,10 +30,7 @@ export function Shortlist({
                             <p className="px-3 text-sm text-slate-800">
                                 {puppy.name}
                             </p>
-                            <DeleteButton
-                                id={puppy.id}
-                                setPuppies={setPuppies}
-                            />
+                            <DeleteButton id={puppy.id} />
                         </li>
                     ))}
             </ul>
@@ -45,28 +38,12 @@ export function Shortlist({
     );
 }
 
-function DeleteButton({
-    id,
-    setPuppies,
-}: {
-    id: Puppy['id'];
-    setPuppies: Dispatch<SetStateAction<Puppy[]>>;
-}) {
-    const [pending, setPending] = useState(false);
+function DeleteButton({ id }: { id: Puppy['id'] }) {
+    console.log(id);
+
+    const [pending] = useState(false);
     return (
         <button
-            onClick={async () => {
-                setPending(true);
-                const updatedPuppy = await toggleLikedStatus(id);
-                setPuppies((prevPups) => {
-                    return prevPups.map((existingPuppy) =>
-                        existingPuppy.id === updatedPuppy.id
-                            ? updatedPuppy
-                            : existingPuppy,
-                    );
-                });
-                setPending(false);
-            }}
             className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100"
             disabled={pending}
         >

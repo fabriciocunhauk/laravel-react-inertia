@@ -1,24 +1,18 @@
-import { createPuppy } from '@/api/FetchPuppies';
-import { Dispatch, SetStateAction } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Puppy } from '../types';
 
-export function NewPuppyForm({
-    puppies,
-    setPuppies,
-}: {
-    puppies: Puppy[];
-    setPuppies: Dispatch<SetStateAction<Puppy[]>>;
-}) {
+export function NewPuppyForm({ puppies }: { puppies: Puppy[] }) {
+    console.log(puppies);
+
     return (
         <div className="mt-12 flex items-center justify-between bg-white p-8 shadow ring ring-black/5">
             <form
-                action={async (formData: FormData) => {
-                    const response = await createPuppy(formData);
-                    if (response.data) {
-                        setPuppies([...puppies, response.data]);
-                    }
-                }}
+                // action={async (formData: FormData) => {
+                //     const response = await createPuppy(formData);
+                //     if (response.data) {
+                //         setPuppies([...puppies, response.data]);
+                //     }
+                // }}
                 className="mt-4 flex w-full flex-col items-start gap-4"
             >
                 <div className="grid w-full gap-6 md:grid-cols-3">
