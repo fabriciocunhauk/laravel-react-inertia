@@ -1,4 +1,5 @@
 import { Puppy } from '@/types/puppyTypes';
+import LikeButton from './LikeButton';
 
 function PuppiesList({ puppiesList }: { puppiesList: Puppy[] }) {
     return (
@@ -28,11 +29,7 @@ function PuppyCard({ puppy }: { puppy: Puppy }) {
                         Owned By: {puppy.user.name}
                     </p>
                 </div>
-                {/* <LikeButton
-          puppyId={puppy.id}
-          isLiked={isLiked}
-          setIsLiked={setIsLiked}
-        /> */}
+                <LikeButton puppy={puppy} />
             </div>
         </li>
     );

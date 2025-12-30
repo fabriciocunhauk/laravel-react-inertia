@@ -17,7 +17,7 @@ export function Shortlist({ puppyIds, puppiesList }: ShortlistProps) {
             <ul className="mt-4 flex flex-wrap gap-4">
                 {puppiesList.map((puppy) => {
                     return (
-                        puppyIds.includes(puppy.id) && (
+                        puppyIds.includes(puppy.likedBy[0]) && (
                             <li
                                 key={puppy.id}
                                 className="relative flex items-center overflow-clip rounded-md bg-white shadow-sm ring ring-black/5 transition duration-100 starting:scale-0 starting:opacity-0"

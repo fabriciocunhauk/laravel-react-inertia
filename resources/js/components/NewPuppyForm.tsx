@@ -14,6 +14,7 @@ export function NewPuppyForm({
             id: puppiesList.length + 1,
             name: formData.get('name') as string,
             trait: formData.get('trait') as string,
+            likedBy: [],
             image_url: 'https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg',
             user: {
                 id: '',

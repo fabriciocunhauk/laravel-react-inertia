@@ -7,6 +7,6 @@ export type Puppy = {
   name: string;
   trait: string;
   image_url: string;
-  likedBy?: User["id"][];
+  likedBy: User["id"][];
   user: { id :string; name: string }
 };

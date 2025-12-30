@@ -4,6 +4,7 @@ import { NewPuppyForm } from '@/components/NewPuppyForm';
 import { PageWrapper } from '@/components/PageWrapper';
 import PuppiesList from '@/components/PuppiesList';
 import { Search } from '@/components/Search';
+import { Shortlist } from '@/components/Shortlist';
 import { Puppy } from '@/types/puppyTypes';
 import { useMemo, useState } from 'react';
 
@@ -43,7 +44,10 @@ const Main = ({ puppies }: { puppies: Puppy[] }) => {
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                 />
-                {/* <Shortlist puppiesList={puppiesList} puppyIds={isLiked} /> */}
+                <Shortlist
+                    puppiesList={puppy}
+                    puppyIds={puppy.map((puppy) => puppy.id)}
+                />
             </div>
 
             <PuppiesList puppiesList={filteredPuppies} />
