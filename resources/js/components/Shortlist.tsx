@@ -1,6 +1,6 @@
-import { usePage } from '@inertiajs/react';
+import { like } from '@/routes/puppies';
+import { useForm, usePage } from '@inertiajs/react';
 import { Heart, LoaderCircle, X } from 'lucide-react';
-import { useState } from 'react';
 import { Puppy, SharedData } from '../types';
 
 export function Shortlist({ puppies }: { puppies: Puppy[] }) {
@@ -38,20 +38,28 @@ export function Shortlist({ puppies }: { puppies: Puppy[] }) {
     );
 }
 
+// different way to send request using a form
 function DeleteButton({ id }: { id: Puppy['id'] }) {
-    console.log(id);
+    const { processing, patch } = useForm();
 
-    const [pending] = useState(false);
     return (
-        <button
-            className="group h-full border-l border-slate-100 px-2 hover:bg-slate-100"
-            disabled={pending}
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+
+                patch(like.url(id), { preserveScroll: true });
+            }}
         >
-            {pending ? (
-                <LoaderCircle className="size-4 animate-spin stroke-slate-300" />
-            ) : (
-                <X className="size-4 stroke-slate-400 group-hover:stroke-red-400" />
-            )}
-        </button>
+            <button
+                disabled={processing}
+                className="group flex h-9 border-1 border-slate-100 px-2 hover:bg-slate-100"
+            >
+                {processing ? (
+                    <LoaderCircle className="h-full animate-spin stroke-slate-300" />
+                ) : (
+                    <X className="h-full stroke-slate-400 group-hover:stroke-red-400" />
+                )}
+            </button>
+        </form>
     );
 }
